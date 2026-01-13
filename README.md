@@ -9,6 +9,19 @@ This project creates a medallion architecture by
 <img width="417" height="222" alt="image" src="https://github.com/user-attachments/assets/5cdf790d-cfe5-4bfd-9c59-94966380b4c8" />
 This is to show the lineage demo
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <img width="284" height="642" alt="image" src="https://github.com/user-attachments/assets/d0b643ba-66f7-4460-8f4b-60bbafdea81c" />
 for the Mosaic AI, Genie, Dashboards - used the takamol_demo catalog.
 
