@@ -1,0 +1,113 @@
+-- Step 1: Create tables without DEFAULT values
+CREATE SCHEMA IF NOT EXISTS bronze;
+USE SCHEMA bronze;
+
+CREATE TABLE raw_establishments (
+    establishment_id STRING,
+    name STRING,
+    commercial_registration STRING,
+    sector STRING,
+    size_category STRING,
+    region STRING,
+    total_employees INT,
+    saudi_employees INT,
+    non_saudi_employees INT,
+    saudization_rate DOUBLE,
+    nitaqat_zone STRING,
+    registration_date DATE,
+    last_updated TIMESTAMP,
+    _ingestion_timestamp TIMESTAMP,
+    _source_file STRING
+);
+
+CREATE TABLE raw_employees (
+    employee_id STRING,
+    establishment_id STRING,
+    nationality STRING,
+    job_title STRING,
+    department STRING,
+    salary_sar INT,
+    contract_type STRING,
+    hire_date DATE,
+    contract_end_date DATE,
+    is_remote BOOLEAN,
+    gender STRING,
+    _ingestion_timestamp TIMESTAMP,
+    _source_file STRING
+);
+
+CREATE TABLE raw_nitaqat_rules (
+    rule_id STRING,
+    sector STRING,
+    size_category STRING,
+    platinum_threshold_pct DOUBLE,
+    high_green_threshold_pct DOUBLE,
+    mid_green_threshold_pct DOUBLE,
+    low_green_threshold_pct DOUBLE,
+    effective_date DATE,
+    last_updated DATE,
+    _ingestion_timestamp TIMESTAMP,
+    _source_file STRING
+);
+
+CREATE TABLE raw_sector_benchmarks (
+    benchmark_id STRING,
+    sector STRING,
+    avg_saudization_pct DOUBLE,
+    median_saudization_pct DOUBLE,
+    top_quartile_pct DOUBLE,
+    bottom_quartile_pct DOUBLE,
+    total_establishments INT,
+    trend_direction STRING,
+    period STRING,
+    generated_date DATE,
+    _ingestion_timestamp TIMESTAMP,
+    _source_file STRING
+);
+
+CREATE TABLE raw_compliance_alerts (
+    alert_id STRING,
+    establishment_id STRING,
+    establishment_name STRING,
+    alert_type STRING,
+    severity STRING,
+    message STRING,
+    recommended_action STRING,
+    created_date TIMESTAMP,
+    is_read BOOLEAN,
+    _ingestion_timestamp TIMESTAMP,
+    _source_file STRING
+);
+
+-- Step 2: Enable column defaults feature for each table
+ALTER TABLE raw_establishments SET TBLPROPERTIES (
+    'delta.feature.allowColumnDefaults' = 'supported'
+);
+ALTER TABLE raw_employees SET TBLPROPERTIES (
+    'delta.feature.allowColumnDefaults' = 'supported'
+);
+ALTER TABLE raw_nitaqat_rules SET TBLPROPERTIES (
+    'delta.feature.allowColumnDefaults' = 'supported'
+);
+ALTER TABLE raw_sector_benchmarks SET TBLPROPERTIES (
+    'delta.feature.allowColumnDefaults' = 'supported'
+);
+ALTER TABLE raw_compliance_alerts SET TBLPROPERTIES (
+    'delta.feature.allowColumnDefaults' = 'supported'
+);
+
+-- Step 3: Set DEFAULT values for columns
+ALTER TABLE raw_establishments ALTER COLUMN _ingestion_timestamp SET DEFAULT current_timestamp();
+ALTER TABLE raw_establishments ALTER COLUMN _source_file SET DEFAULT 'establishments.csv';
+
+ALTER TABLE raw_employees ALTER COLUMN _ingestion_timestamp SET DEFAULT current_timestamp();
+ALTER TABLE raw_employees ALTER COLUMN _source_file SET DEFAULT 'employees.csv';
+
+ALTER TABLE raw_nitaqat_rules ALTER COLUMN _ingestion_timestamp SET DEFAULT current_timestamp();
+ALTER TABLE raw_nitaqat_rules ALTER COLUMN _source_file SET DEFAULT 'nitaqat_rules.csv';
+
+ALTER TABLE raw_sector_benchmarks ALTER COLUMN _ingestion_timestamp SET DEFAULT current_timestamp();
+ALTER TABLE raw_sector_benchmarks ALTER COLUMN _source_file SET DEFAULT 'sector_benchmarks.csv';
+
+ALTER TABLE raw_compliance_alerts ALTER COLUMN _ingestion_timestamp SET DEFAULT current_timestamp();
+ALTER TABLE raw_compliance_alerts ALTER COLUMN _source_file SET DEFAULT 'compliance_alerts.csv';
