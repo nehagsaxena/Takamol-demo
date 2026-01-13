@@ -1,0 +1,25 @@
+-- Load CSVs into Bronze tables
+COPY INTO bronze.raw_establishments
+FROM '/Volumes/takamol_demo_lineage_graph/raw/data/establishments.csv'
+FILEFORMAT = CSV
+FORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true');
+
+COPY INTO bronze.raw_employees
+FROM '/Volumes/takamol_demo_lineage_graph/raw/data/employees.csv'
+FILEFORMAT = CSV
+FORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true');
+
+COPY INTO bronze.raw_nitaqat_rules
+FROM '/Volumes/takamol_demo_lineage_graph/raw/data/nitaqat_rules.csv'
+FILEFORMAT = CSV
+FORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true');
+
+COPY INTO bronze.raw_sector_benchmarks
+FROM '/Volumes/takamol_demo_lineage_graph/raw/data/sector_benchmarks.csv'
+FILEFORMAT = CSV
+FORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true');
+
+COPY INTO bronze.raw_compliance_alerts
+FROM '/Volumes/takamol_demo_lineage_graph/raw/data/compliance_alerts.csv'
+FILEFORMAT = CSV
+FORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true');
